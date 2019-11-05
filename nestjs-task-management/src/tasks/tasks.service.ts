@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import{Task, TaskStatus} from './task.model';
 import * as uuid from 'uuid/v1';
 import { CreateTaskDto } from './dto/create-tast.dto';
+import { GetTasksFilterDTO } from './dto/get-tasks-filter.dto';
 // é do serviço, a responsabilidade de manipular todas as tasks
 @Injectable()
 export class TasksService {
@@ -9,6 +10,23 @@ export class TasksService {
 
     getAllTasks(): Task[]{
         return this.tasks;
+    }
+
+    getTasksWithFilters(filterDto: GetTasksFilterDTO) :Task[]{
+        const {status, search} = filterDto;
+        let tasks = this.getAllTasks();
+
+        if(status){
+            tasks = tasks.filter(task => task.status === status)
+        }
+        //não entendi esse includes com os parametros
+        if(search){
+            tasks = tasks.filter(task =>
+                task.title.includes(search) ||
+                task.description.includes(search),
+                );
+        }
+        return tasks;
     }
 
     getTaskById(id : string): Task{
