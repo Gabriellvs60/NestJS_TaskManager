@@ -14,6 +14,12 @@ export class TasksController {
         return this.taskService.getTaskById(id);
     }
 
+    @Post()
+    @UsePipes(ValidationPipe)
+    createTask(@Body() createTaskDto: CreateTaskDto): Promise<Task>{
+        return this.taskService.createTask(createTaskDto);
+    }
+
     /* @Get()
     getTasks(@Query(ValidationPipe) filterDto: GetTasksFilterDTO) : Task[]{
         if(Object.keys(filterDto).length){
