@@ -13,6 +13,10 @@ export class TasksService {
         private taskRepository: TaskRepository,
     ) { }
 
+    getTasks(filterDto: GetTasksFilterDTO){
+        
+    }
+
     async getTaskById(id: number): Promise<Task> {
         const found = await this.taskRepository.findOne(id);
         if (!found) {
@@ -33,4 +37,10 @@ export class TasksService {
         }
     }
 
+    async updateTaskStatus(id: number, status:TaskStatus): Promise<Task>{
+        const task = await this.getTaskById(id);
+        task.status = status;
+        task.save();
+        return task;
+    }
 }

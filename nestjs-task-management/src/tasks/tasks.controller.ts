@@ -4,10 +4,17 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDTO } from './dto/get-tasks-filter.dto';
 import { TaskStatusValidationPipe } from './pipe/task-status-validation.pipe';
 import { Task } from './task.entity';
+import { TaskStatus } from './task-status.enum';
+import { tsConstructorType } from '@babel/types';
 
 @Controller('tasks')
 export class TasksController {
     constructor(private taskService: TasksService){}
+
+    @Get()
+    getTasks(@Query(ValidationPipe) filterDto:GetTasksFilterDTO){
+       return this.taskService.getTasks(filterDto);
+    }
 
     @Get('/:id')
     getTaskById(@Param('id', ParseIntPipe) id : number) : Promise<Task>{
@@ -25,6 +32,13 @@ export class TasksController {
     return this.taskService.deleteTask(id);
     }
 
+    @Patch('/:id/status')
+    updateTaskStatus(
+        @Param('id', ParseIntPipe) id:number,
+        @Body('status', TaskStatusValidationPipe) status: TaskStatus,
+    ):Promise<Task> {
+        return this.taskService.updateTaskStatus(id,status);
+    }
     /* @Get()
     getTasks(@Query(ValidationPipe) filterDto: GetTasksFilterDTO) : Task[]{
         if(Object.keys(filterDto).length){
