@@ -6,6 +6,7 @@ import { TaskRepository } from './task.repository';
 import { Task } from './task.entity';
 import { TaskStatus } from './task-status.enum';
 import { User } from 'src/auth/user.entity';
+import { GetUser } from 'src/auth/get-user.decorator';
 // é do serviço, a responsabilidade de manipular todas as tasks
 @Injectable()
 export class TasksService {
@@ -22,8 +23,11 @@ export class TasksService {
         
     }
 
-    async getTaskById(id: number): Promise<Task> {
-        const found = await this.taskRepository.findOne(id);
+    async getTaskById(
+        id: number,
+        user: User,
+        ): Promise<Task> {
+        const found = await this.taskRepository.findOne({where: {id, userId: user.id} });
         if (!found) {
             throw new NotFoundException("Task with ID not found");
         }
@@ -45,10 +49,14 @@ export class TasksService {
         }
     }
 
-    async updateTaskStatus(id: number, status:TaskStatus): Promise<Task>{
-        const task = await this.getTaskById(id);
+     async updateTaskStatus(
+         id: number, 
+         status:TaskStatus,
+         user: User,
+        ): Promise<Task>{
+        const task = await this.getTaskById(id, user);
         task.status = status;
-        task.save();
+        await task.save();
         return task;
-    }
+    } 
 }
