@@ -3,8 +3,6 @@ import {EntityRepository, Repository} from 'typeorm';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { TaskStatus } from './task-status.enum';
 import { GetTasksFilterDTO } from './dto/get-tasks-filter.dto';
-import { filter } from 'minimatch';
-import { TasksController } from './tasks.controller';
 import { User } from 'src/auth/user.entity';
 
 @EntityRepository(Task)
@@ -40,7 +38,6 @@ export class TaskRepository extends Repository<Task>{
         task.user = user;
         await task.save();
         delete task.user;
-
         return task;
     } 
 }

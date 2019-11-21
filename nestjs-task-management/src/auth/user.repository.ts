@@ -8,9 +8,7 @@ import { ConflictException, InternalServerErrorException } from "@nestjs/common"
 export class UserRepository extends Repository<User>{
     async signup(authCredentialsDto: AuthCredentialsDto): Promise<void> {
         const { username, password } = authCredentialsDto;
-
         const salt = await bcrypt.genSalt();
-
         const exists = this.findOne({ username });
 
         if (exists) {

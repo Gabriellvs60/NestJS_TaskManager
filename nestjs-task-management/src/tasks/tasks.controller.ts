@@ -57,43 +57,5 @@ export class TasksController {
         ):Promise<Task> {
         return this.taskService.updateTaskStatus(id,status, user);
     }
-    /* @Get()
-    getTasks(@Query(ValidationPipe) filterDto: GetTasksFilterDTO) : Task[]{
-        if(Object.keys(filterDto).length){
-           return this.taskService.getTasksWithFilters(filterDto);
-        }else{
-            return this.taskService.getAllTasks();
-        }
-    }idjfdifjdif
-
-    @Post()
-    @UsePipes(ValidationPipe)
-        createTask(@Body() createTaskDto: CreateTaskDto)  : Task{
-            return this.taskService.createTask(createTaskDto);
-    }
-
-   
-
-    
-    @Delete('/:id')
-    deleteTask(@Param('id') id : string) : void{
-        this.taskService.deleteTask(id);
-    }
-
-    @Patch('/:id/status')
-    updateTaskStatus(
-        @Param('id') id:string,
-        @Body('status', TaskStatusValidationPipe) status: TaskStatus,
-    ):Task {
-        return this.taskService.updateTasksStatus(id,status);
-    } */
 }
 
-//createTask(
-    /* @Body('title') title: string,
-    @Body('description') description: string, */
-
-        /* @Post()
-    createTask(@Body() body){
-        console.log('body', body)
-    } */
